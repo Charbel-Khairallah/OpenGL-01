@@ -2,23 +2,35 @@
 
 
 std::unordered_map<std::string, Window*> WindowManager::activeWindows;
+std::vector<std::string> WindowManager::windowsIdToRemove;
+std::vector<Window*> WindowManager::windowsToAdd;
 
 
-void WindowManager::AddWindow(std::string id, Window* window) {
-	activeWindows.insert({ id, window });
+void WindowManager::AddWindow(Window* window) {
+	WindowManager::windowsToAdd.push_back(window);
 }
 
 void WindowManager::RemoveWindow(std::string id) {
-	if(activeWindows.find(id) != activeWindows.end()) activeWindows.erase(id);
+	WindowManager::windowsIdToRemove.push_back(id);
 }
 
 
 
 bool WindowManager::IsEmpty() {
-	return WindowManager::activeWindows.size() == 0;
+	return (WindowManager::activeWindows.size() + WindowManager::windowsToAdd.size() + WindowManager::windowsIdToRemove.size()) == 0;
 }
 
 void WindowManager::Update() {
+	for (int i = 0; i < WindowManager::windowsToAdd.size(); i++) {
+		WindowManager::activeWindows.insert({ WindowManager::windowsToAdd[i]->GetId(), WindowManager::windowsToAdd[i] });
+	}
+	WindowManager::windowsToAdd.clear();
+
+	for (int i = 0; i < WindowManager::windowsIdToRemove.size(); i++) {
+		if (activeWindows.find(WindowManager::windowsIdToRemove[i]) != activeWindows.end()) activeWindows.erase(WindowManager::windowsIdToRemove[i]);
+	}
+	WindowManager::windowsIdToRemove.clear();
+
 	glfwPollEvents();
 
 

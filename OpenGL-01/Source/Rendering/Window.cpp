@@ -13,7 +13,7 @@ Window::Window(int width, int height) {
 
 	Initialize();
 
-	if (Initialized()) WindowManager::AddWindow(this->id, this);
+	if (Initialized()) WindowManager::AddWindow(this);
 	else delete this;
 }
 

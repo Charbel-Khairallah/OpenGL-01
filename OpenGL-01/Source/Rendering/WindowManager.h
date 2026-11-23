@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include <string>
 
 #include "Window.h"
@@ -8,7 +9,7 @@
 
 class WindowManager {
 public:
-	static void AddWindow(std::string id, Window* window);
+	static void AddWindow(Window* window);
 	static void RemoveWindow(std::string id);
 
 	static bool IsEmpty();
@@ -18,4 +19,7 @@ public:
 
 private:
 	static std::unordered_map<std::string, Window*> activeWindows;
+
+	static std::vector<std::string> windowsIdToRemove;
+	static std::vector<Window*> windowsToAdd;
 };
