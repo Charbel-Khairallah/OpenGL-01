@@ -1,14 +1,19 @@
-#include "Rendering/Windows.h"
+#include "Rendering/WindowManager.h"
 #include "Rendering/TestWindow.h"
+
 
 int main(void)
 {
-    TestWindow* testWindow = new TestWindow();
+    if (WindowManager::Initialize() < 0) return -1;
 
-    while (!Windows::IS_EMPTY) {
-        Windows::Update();
+    new TestWindow();
+    new TestWindow();
+
+
+    while (!WindowManager::IsEmpty()) {
+        WindowManager::Update();
     }
 
-    Windows::Terminate();
+    WindowManager::Terminate();
     return 0;
 }

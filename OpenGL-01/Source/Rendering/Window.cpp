@@ -1,28 +1,28 @@
 #include <iostream>
 
 #include "Window.h"
-#include "Windows.h"
+#include "WindowManager.h"
+#include "../Helpers/UUID.h"
 
 
 Window::Window(int width, int height) {
 	this->width = width;
 	this->height = height;
 
-	// To Be Changed Later For A Unique GUID / UUID
-	this->id = "Test";
-
-	Windows::AddWindow(this->id, this);
+	this->id = UUID::NewUUID();
 
 	Initialize();
+
+	if (Initialized()) WindowManager::AddWindow(this->id, this);
+	else delete this;
 }
 
 Window::~Window() {
-	
+	WindowManager::RemoveWindow(this->id);
+	glfwDestroyWindow(glfwWindow);
 }
 
 void Window::Initialize() {
-	if (!glfwInit()) return;
-
 	Window::glfwWindow = glfwCreateWindow(width, height, "Window", NULL, NULL);
 	if (!Window::glfwWindow)
 	{
@@ -32,7 +32,6 @@ void Window::Initialize() {
 
 
 	glfwMakeContextCurrent(Window::glfwWindow);
-
 	if (glewInit() != GLEW_OK) {
 		std::cout << "Glew Init Failed" << std::endl;
 	}
@@ -49,16 +48,12 @@ bool Window::ShouldClose() {
 }
 
 void Window::Update() {
-	/* Render here */
+	glfwMakeContextCurrent(Window::glfwWindow);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	UpdateContent();
 
-	/* Swap front and back buffers */
 	glfwSwapBuffers(glfwWindow);
-
-	/* Poll for and process events */
-	glfwPollEvents();
 }
 
 std::string Window::GetId() {

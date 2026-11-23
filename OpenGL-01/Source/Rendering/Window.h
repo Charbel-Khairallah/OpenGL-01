@@ -5,10 +5,6 @@
 #include <string>
 
 
-#define INITIALIZED Initialized()
-#define SHOULD_CLOSE ShouldClose()
-#define ID GetId()
-
 
 class Window {
 public:
@@ -21,8 +17,15 @@ public:
 
 	void Update();
 	std::string GetId();
+
+
+	Window(const Window& other) = delete;
+	Window& operator = (const Window& other) = delete;
+	Window(Window&& other) = delete;
+	Window& operator =(Window&& other) = delete;
+
 private:
-	GLFWwindow* glfwWindow = NULL;
+	GLFWwindow* glfwWindow = 0;
 
 	std::string id;
 	int width;
@@ -31,5 +34,5 @@ private:
 
 	void Initialize();
 
-	virtual void UpdateContent() = NULL;
+	virtual void UpdateContent() = 0;
 };

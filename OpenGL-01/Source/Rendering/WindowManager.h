@@ -5,10 +5,8 @@
 
 #include "Window.h"
 
-#define IS_EMPTY IsEmpty()
 
-
-class Windows {
+class WindowManager {
 public:
 	static void AddWindow(std::string id, Window* window);
 	static void RemoveWindow(std::string id);
@@ -16,6 +14,7 @@ public:
 	static bool IsEmpty();
 	static void Update();
 	static void Terminate();
+	static int Initialize();
 
 private:
 	static std::unordered_map<std::string, Window*> activeWindows;
