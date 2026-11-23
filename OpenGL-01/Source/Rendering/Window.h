@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
-
+#include "../Buffers/VertexBuffer.h"
 
 class Window {
 public:
@@ -24,6 +24,9 @@ public:
 	Window(Window&& other) = delete;
 	Window& operator =(Window&& other) = delete;
 
+protected:
+	VertexBuffer* dynamicVertexBuffer;
+
 private:
 	GLFWwindow* glfwWindow = 0;
 
@@ -31,6 +34,7 @@ private:
 	int width;
 	int height;
 	bool initialized = false;
+
 
 	void Initialize();
 

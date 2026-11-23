@@ -13,6 +13,8 @@ Window::Window(int width, int height) {
 
 	Initialize();
 
+	this->dynamicVertexBuffer = new VertexBuffer();
+
 	if (Initialized()) WindowManager::AddWindow(this);
 	else delete this;
 }
@@ -20,6 +22,7 @@ Window::Window(int width, int height) {
 Window::~Window() {
 	WindowManager::RemoveWindow(this->id);
 	glfwDestroyWindow(glfwWindow);
+	delete this->dynamicVertexBuffer;
 }
 
 void Window::Initialize() {
